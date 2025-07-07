@@ -1,4 +1,4 @@
-# TOM-007 TE Expression & Motif Pipeline
+# TE Expression, epigenetic status, & TF Pipeline across natural pupulations of Drosophila Melanogaster
 
 ## 🚀 Quickstart
 
