@@ -1,24 +1,19 @@
-# Snakemake temp & log
-.snakemake/
-.snakemake_lock
 
-# results and other large outputs
+Snakemake scratch
+.snakemake/
+*.snakemake.log
+
+Python
+pycache/
+*.py[cod]
+.env/
+
+Workflow outputs
 results/
 plots/
-bed/tmp_*.bed
-.snakemake/
+bed/
+fimo_upstream1kb/
 
-# Python caches
-__pycache__/
-*.py[cod]
-
-# environment files
-env/
-.env/
-*.yaml.lock
-
-# editor and OS cruft
-.DS_Store
-*~
-*.swp
+Editor dirs
 .vscode/
+.idea/
