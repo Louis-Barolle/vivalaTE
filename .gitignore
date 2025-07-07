@@ -1,19 +1,33 @@
-
-Snakemake scratch
+# Snakemake scratch
 .snakemake/
 *.snakemake.log
 
-Python
-pycache/
+# Python byte-code & virtual-env
+__pycache__/
 *.py[cod]
 .env/
 
-Workflow outputs
-results/
-plots/
-bed/
-fimo_upstream1kb/
+# workflow outputs & intermediates
+/results/
+/bed/
+/plots/
+/results/fimo_upstream1kb/
+/fimo_upstream1kb/
 
-Editor dirs
+# “raw” input data you don’t want in git
+/genomic_data_gut/
+/genomic_data_head/
+/Genome/
+/Genes/
+/TE/
+
+# locally built binaries
+meme-5.4.1*/
+meme-5.4.1.tar.gz
+
+# IDE/editor settings
 .vscode/
 .idea/
+
+# historical snakefiles
+snakefileOLD_*
