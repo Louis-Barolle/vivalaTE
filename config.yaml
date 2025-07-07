@@ -1,0 +1,19 @@
+# config.yaml for Exp_23
+tissues:
+  - gut
+  - head
+
+chip_dir_gut: "/store/EQUIPES/REPEAT/MEMBERS/louis.barolle/Exp_23/TOM-007/genomic_data_gut/CHIP-seq"
+chip_dir_head: "/store/EQUIPES/REPEAT/MEMBERS/louis.barolle/Exp_23/TOM-007/genomic_data_head/CHIP-seq"
+
+rna_dir_gut: "/store/EQUIPES/REPEAT/MEMBERS/louis.barolle/Exp_23/TOM-007/genomic_data_gut/RNA-seq"
+rna_dir_head: "/store/EQUIPES/REPEAT/MEMBERS/louis.barolle/Exp_23/TOM-007/genomic_data_head/RNA-seq"
+
+te_gff: "/store/EQUIPES/REPEAT/MEMBERS/louis.barolle/Exp_23/TOM-007/TE/TOM-007.TE.gff3.gz"
+gene_gff: "/store/EQUIPES/REPEAT/MEMBERS/louis.barolle/Exp_23/TOM-007/Genes/TOM-007.gff3.gz"
+
+te_classes_tsv: "/store/EQUIPES/REPEAT/MEMBERS/louis.barolle/Exp_23/ressources/TEClasses.tsv"
+
+genome_fasta: "/store/EQUIPES/REPEAT/MEMBERS/louis.barolle/Exp_23/TOM-007/Genome/TOM-007.fasta"
+
+motif_meme: "/store/EQUIPES/REPEAT/MEMBERS/louis.barolle/Exp_23/ressources/JASPAR/20250626162532_JASPAR2024_combined_matrices_1185657_meme.txt"
