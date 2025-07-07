@@ -12,6 +12,8 @@ cp config.example.yaml config.yaml
 
 # Run the full pipeline on 6 cores:
 snakemake --cores 6
+
+
 📁 Project Structure
 snakefile — main Snakemake workflow
 
@@ -32,9 +34,7 @@ meme-suite (for FIMO)
 
 You can install Python deps via:
 
-bash
-Copier
-Modifier
+
 pip install pandas pyBigWig seaborn scikit-learn snakemake
 And bedtools / meme-suite via your package manager or conda.
 
