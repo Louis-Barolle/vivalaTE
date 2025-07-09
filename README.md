@@ -1,3 +1,6 @@
+
+
+````markdown
 # vivalaTE
 
 A Snakemake pipeline for integrated analysis of transposable elements (TEs), chromatin marks, and RNA-seq across multiple genomes and tissues on a compute cluster.
@@ -8,36 +11,62 @@ A Snakemake pipeline for integrated analysis of transposable elements (TEs), chr
 git clone https://github.com/Louis-Barolle/vivalaTE.git
 cd vivalaTE
 snakemake --cores 4
-```
+````
 
-All input files (genome BED/GFF, bigWig signals, config.yaml) live in the same directory as the Snakefile. Results will be written under <genome>/results/<tissue>/….
+*All input files (genome BED/GFF, bigWig signals, config.yaml) live in the same directory as the Snakefile. Results will be written under `results/<genome>/<tissue>/…`.*
 
-Configuration
-Edit config.yaml in the project root:
+## Configuration
 
-yaml
+Edit `config.yaml` in the project root to suit your paths:
+
+```yaml
 base_dir: "/path/to/vivalaTE"
-genomes: ["TOM-007", "AKA-017", …]
-tissues: ["gut", "head", …]
+genomes:
+  - "TOM-007"
+  - "AKA-017"
+  # …
+tissues:
+  - "gut"
+  - "head"
+  # …
 chip_dir_template: "{base_dir}/{genome}/genomic_data_{tissue}/CHIP-seq"
 rna_dir_template: "{base_dir}/{genome}/genomic_data_{tissue}/RNA-seq"
 te_classes_tsv: "{base_dir}/ressources/TEClasses.tsv"
-Ensure your .bw files are named <sample>.bw and located under the paths defined above.
+```
 
-Workflow
-BED preparation: GFF ? TE and gene BEDs; create upstream windows.
+Ensure your `.bw` files are named `<sample>.bw` and located under the directories defined above.
 
-Signal mapping: compute mean ChIP/RNA signal per TE.
+## Workflow
 
-Combine & summarize: build final_matrix.tsv and TE_summary.tsv.
+1. **BED preparation**
 
-Visualization: heatmaps, violins/boxplots, scatterplots, pie charts, metaplots, feature-importance, overlap analyses.
+   * Convert GFF ? TE and gene BEDs
+   * Extract upstream windows
 
-Scripts live in Python_scripts/ and are invoked via Snakemake’s script: directive.
+2. **Signal mapping**
 
-Contact
-Louis Barolle
-louis.barolle@i2bc.paris-saclay.fr
+   * Compute mean ChIP/RNA signal per TE
 
-License
-MIT License — see LICENSE for details.
+3. **Combine & summarize**
+
+   * Build `final_matrix.tsv` (all marks + RNA)
+   * Build `TE_summary.tsv` (context + average signals)
+
+4. **Visualization**
+
+   * Heatmaps, violin/boxplots, scatterplots, pie charts, metaplots
+   * Feature-importance (Random Forest)
+   * Overlap analyses (venn diagrams, barplots)
+
+All helper scripts live in `Python_scripts/` and are invoked automatically via Snakemake’s `script:` directives.
+
+## Contact
+
+Louis Barolle <i>[louis.barolle@i2bc.paris-saclay.fr](mailto:louis.barolle@i2bc.paris-saclay.fr)</i>
+
+## License
+
+This project is released under the MIT License. See [LICENSE](LICENSE) for details.
+
+```
+```
