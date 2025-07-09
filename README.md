@@ -13,9 +13,12 @@ cd vivalaTE
 snakemake --cores 4
 ````
 
-*All input files (genome BED/GFF, bigWig signals, config.yaml) live in the same directory as the Snakefile. Results will be written under `results/<genome>/<tissue>/…`.*
+*All input files (genome BED/GFF, bigWig signals, config.yaml) live in the same directory as the Snakefile. Results will be written under `results/<genome>/<tissue>/â€¦`.*
 
 ## Configuration
+
+All base data (Genome,TE,Gene annotations as well as CHIP seq and RNA-seq) were downloaded from https://www.biologiaevolutiva.org/gonzalez_lab/drosomics/DATA/ 
+All 3 replicates were downloaded per experiment, and for CHIP-seq data, the file names were manually annotated to contain *_H3k9me3.bw or *_H3k27ac.bw
 
 Edit `config.yaml` in the project root to suit your paths:
 
@@ -24,11 +27,11 @@ base_dir: "/path/to/vivalaTE"
 genomes:
   - "TOM-007"
   - "AKA-017"
-  # …
+  # â€¦
 tissues:
   - "gut"
   - "head"
-  # …
+  # â€¦
 chip_dir_template: "{base_dir}/{genome}/genomic_data_{tissue}/CHIP-seq"
 rna_dir_template: "{base_dir}/{genome}/genomic_data_{tissue}/RNA-seq"
 te_classes_tsv: "{base_dir}/ressources/TEClasses.tsv"
@@ -58,7 +61,7 @@ Ensure your `.bw` files are named `<sample>.bw` and located under the directorie
    * Feature-importance (Random Forest)
    * Overlap analyses (venn diagrams, barplots)
 
-All helper scripts live in `Python_scripts/` and are invoked automatically via Snakemake’s `script:` directives.
+All helper scripts live in `Python_scripts/` and are invoked automatically via Snakemakeâ€™s `script:` directives.
 
 ## Contact
 
