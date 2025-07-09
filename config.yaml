@@ -1,0 +1,21 @@
+# top‐level project config
+base_dir: "/store/EQUIPES/REPEAT/MEMBERS/louis.barolle/Exp_23"
+
+# list all genome prefixes
+genomes:
+  - TOM-007
+  - AKA-017
+
+tissues:
+  - gut
+  - head
+
+chip_dir_template: "{base_dir}/{genome}/genomic_data_{tissue}/CHIP-seq"
+rna_dir_template:  "{base_dir}/{genome}/genomic_data_{tissue}/RNA-seq"
+
+te_gff_template:    "{base_dir}/{genome}/TE/{genome}.TE.gff3.gz"
+gene_gff_template:  "{base_dir}/{genome}/Genes/{genome}.gff3.gz"
+genome_fasta_template: "{base_dir}/{genome}/Genome/{genome}.fasta"
+
+te_classes_tsv:     "{base_dir}/ressources/TEClasses.tsv"
+motif_meme:         "{base_dir}/ressources/JASPAR/20250626162532_JASPAR2024_combined_matrices_1185657_meme.txt"
