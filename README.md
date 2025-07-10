@@ -33,8 +33,13 @@ tissues:
   - "head"
   # …
 chip_dir_template: "{base_dir}/{genome}/genomic_data_{tissue}/CHIP-seq"
-rna_dir_template: "{base_dir}/{genome}/genomic_data_{tissue}/RNA-seq"
-te_classes_tsv: "{base_dir}/ressources/TEClasses.tsv"
+rna_dir_template:  "{base_dir}/{genome}/genomic_data_{tissue}/RNA-seq"
+
+te_gff_template:    "{base_dir}/{genome}/TE/{genome}.TE.gff3.gz"
+gene_gff_template:  "{base_dir}/{genome}/Genes/{genome}.gff3.gz"
+genome_fasta_template: "{base_dir}/{genome}/Genome/{genome}.fasta"
+
+te_classes_tsv:     "{base_dir}/ressources/TEClasses.tsv"
 ```
 
 Ensure your `.bw` files are named `<sample>.bw` and located under the directories defined above.
