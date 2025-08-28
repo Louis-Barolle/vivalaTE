@@ -1,6 +1,27 @@
 import os, glob, re
 configfile: "config.yaml"
 
+# --- tiny pretty banners ---
+import time, datetime as dt
+START = time.time()
+
+def banner(title, sub=None, w=70):
+    w = max(w, len(title)+4, len(sub)+4 if sub else 0)
+    print(f"\n╔{'═'*w}╗")
+    print(f"║ {title.center(w-2)} ║")
+    if sub: print(f"║ {sub.center(w-2)} ║")
+    print(f"╚{'═'*w}╝\n")
+
+onstart:
+    banner("Louis Barolle's epic code now starting B) : Per genome analysis", f"Started: {dt.datetime.now():%Y-%m-%d %H:%M:%S}")
+
+onsuccess:
+    banner("Workflow finished :D !!!", f"Elapsed: {(time.time()-START)/60:.1f} min")
+
+onerror:
+    banner("Despite my immense intellect, the workflow failed :(", "Check .snakemake/log/* and rule logs")
+# --- end of banners ---
+
 # 1) project-level config
 BASE    = config["base_dir"]       
 GENOMES = config["genomes"]
@@ -58,7 +79,7 @@ rule all:
         expand("{genome}/results/{tissue}/corr_panels.png",                 genome=GENOMES, tissue=TISSUES),
         expand("{genome}/results/{tissue}/metaplot_signal.png",             genome=GENOMES, tissue=TISSUES),
         expand("{genome}/results/{tissue}/scatter_rna_chip.png",            genome=GENOMES, tissue=TISSUES),
-        expand("{genome}/results/{tissue}/feature_importance.png",          genome=GENOMES, tissue=TISSUES),
+        expand("{genome}/results/{tissue}/feature_importance.png",          genome=GENOMES, tissue=TISSUES), #disabled for now, issue with sklearn module
         expand("{genome}/results/{tissue}/TE_composition.png",              genome=GENOMES, tissue=TISSUES),
 
         # per-genome static files
@@ -68,7 +89,7 @@ rule all:
 
         # compare within each genome
         expand("{genome}/results/compare/gut_head_overlap.txt",             genome=GENOMES),
-        expand("{genome}/results/compare/gut_head_venn.png",                genome=GENOMES),
+        expand("{genome}/results/compare/gut_head_venn.png",                genome=GENOMES), #idem here, module not yet loaded in update
         expand("{genome}/results/compare/gut_head_overlap_composition.png", genome=GENOMES)
 
 ##### BED preparation #####
@@ -226,28 +247,26 @@ rule combine_all:
 
 rule classify_context:
     input:
-        bed   = "{genome}/bed/{genome}_TEs.sorted.bed",
-        genes = "{genome}/bed/{genome}_genes.bed"
+        te_bed = "{genome}/bed/{genome}_TEs.sorted.bed",
+        gff3   = lambda wc: tpl("gene_gff", genome=wc.genome)
     output:
         "{genome}/results/TE_context.tsv"
     run:
-        import os, pandas as pd, subprocess
-        res_dir = os.path.dirname(output[0])
-        os.makedirs(res_dir, exist_ok=True)
-        tmp = f"{wildcards.genome}/bed/tmp_TE.bed"
-        subprocess.run(f"cp {input.bed} {tmp}", shell=True, check=True)
-        genic_file = f"{wildcards.genome}/results/_genic.txt"
-        cmd = (
-            f"bedtools intersect -wa -a {tmp} -b {input.genes} "
-            f"| cut -f4 | sort | uniq > {genic_file}"
-        )
-        subprocess.run(cmd, shell=True, check=True)
-        all_te = pd.read_csv(input.bed, sep="\t", header=None, usecols=[3], names=["TE"])
-        genic  = pd.read_csv(genic_file, header=None, names=["TE"])
-        all_te["context"] = all_te.TE.isin(genic.TE).map({True: "genic", False: "intergenic"})
-        all_te.to_csv(output[0], sep="\t", index=False)
-        os.remove(tmp)
-        os.remove(genic_file)
+        import os, subprocess, pandas as pd
+        d = os.path.dirname(input.te_bed)
+        os.makedirs(os.path.dirname(output[0]), exist_ok=True)
+        tmpg, tmpe, tmpi = (f"{d}/tmp_{x}.bed" for x in ("gene","exon","intron"))
+        subprocess.run(f"zcat {input.gff3} | awk '$3==\"gene\"  {{print $1\"\\t\"$4-1\"\\t\"$5\"\\t\"$9}}' >{tmpg}", shell=True, check=True)
+        subprocess.run(f"zcat {input.gff3} | awk '$3==\"exon\"  {{print $1\"\\t\"$4-1\"\\t\"$5\"\\t\"$9}}' >{tmpe}", shell=True, check=True)
+        subprocess.run(f"bedtools subtract -a {tmpg} -b {tmpe} >{tmpi}", shell=True, check=True)
+        df = pd.read_csv(input.te_bed, sep="\t", header=None,
+                 usecols=[3], names=["TE"])
+        ex = set(subprocess.check_output(f"bedtools intersect -wa -a {input.te_bed} -b {tmpe}|cut -f4|sort -u", shell=True).decode().split())
+        ix = set(subprocess.check_output(f"bedtools intersect -wa -a {input.te_bed} -b {tmpi}|cut -f4|sort -u", shell=True).decode().split())
+        df["context"] = df.TE.map(lambda t: "exonic" if t in ex else "intronic" if t in ix else "intergenic")
+        df[["TE","context"]].to_csv(output[0], sep="\t", index=False)
+        for f in (tmpg,tmpe,tmpi): os.remove(f)
+
 
 
 rule summarize_TE_signals:

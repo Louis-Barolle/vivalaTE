@@ -7,13 +7,8 @@ import matplotlib.pyplot as plt
 # load final matrix
 m = pd.read_csv(snakemake.input.matrix, sep="\t", index_col=0)
 
-# assume you have per-TE mean signal for H3K27ac in m["H3K27ac"]
-# and you have bedtools signal per-base in an auxiliary bigwig or pre-binned file...
-# for minimalism, we'll bin the continuous signal into 100 bins across all TEs:
 
-# here m_signal is a DataFrame: rows=TEs, cols=bins (this must be precomputed or loaded)
-# as a quick stand‐in, we simulate by slicing the signal vector:
-# (in practice, you would load a separate matrix of shape [nTE x nBins])
+
 signal = m["H3K27ac"].values
 n_bins = 50
 bins = np.array_split(signal, n_bins)

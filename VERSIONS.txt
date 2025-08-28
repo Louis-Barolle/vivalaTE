@@ -1,0 +1,26 @@
+Python: 3.13.5
+
+Name: pandas
+Version: 2.2.3
+
+Name: numpy
+Version: 2.2.4
+
+Name: seaborn
+Version: 0.13.2
+
+Name: matplotlib
+Version: 3.10.1+dfsg1
+
+Name: scipy
+Version: 1.15.3
+
+Name: pyBigWig
+Version: 0.3.23
+
+Name: plotly
+Version: 5.20.0
+
+Name: matplotlib-venn
+Version: 1.1.1
+

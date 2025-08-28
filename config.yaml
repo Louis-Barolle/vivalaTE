@@ -5,6 +5,9 @@ base_dir: "/store/EQUIPES/REPEAT/MEMBERS/louis.barolle/Exp_23"
 genomes:
   - TOM-007
   - AKA-017
+  - JUT-011
+  - MUN-016
+  - SLA-001
 
 tissues:
   - gut
