@@ -79,6 +79,3 @@ Louis Barolle <i>[louis.barolle@i2bc.paris-saclay.fr](mailto:louis.barolle@i2bc.
 
 This project is released under the MIT License. See [LICENSE](LICENSE) for details.
 
-```
-::contentReference[oaicite:0]{index=0}
-```
